@@ -1,0 +1,29 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix football: <http://www.ex.fr/sport#> .
+
+football:Miguel_Sansores
+        a             football:Attaquant ;
+        rdfs:label    "Kylian Mbappé" ;
+        football:age  "22"^^xsd:int .
+
+football:kingsley_coman
+        a             football:Attaquant ;
+        rdfs:label    "Kingsley Coman" ;
+        football:age  "24"^^xsd:int .
+
+football:olivier_giroud
+        a             football:Attaquant ;
+        rdfs:label    "Olivier Giroud" ;
+        football:age  "34"^^xsd:int .
+
+football:marcus_thuram
+        a             football:Attaquant ;
+        rdfs:label    "Marcus Thuram" ;
+        football:age  "23"^^xsd:int .
+
+football:Antoine_Griezmann
+        a             football:Attaquant ;
+        rdfs:label    "Antoine Griezmann" ;
+        football:age  "29"^^xsd:int .
