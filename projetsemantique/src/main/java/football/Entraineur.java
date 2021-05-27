@@ -53,7 +53,7 @@ public class Entraineur extends Personne {
         }
     };
 
-    public static void instaceConstructor(String req, String uri) {
+    public static void instanceConstructor(String req, String uri) {
 
         String sparqlService = "http://query.wikidata.org/sparql";
 
@@ -95,4 +95,5 @@ public class Entraineur extends Personne {
         }
 
     }
+
 }

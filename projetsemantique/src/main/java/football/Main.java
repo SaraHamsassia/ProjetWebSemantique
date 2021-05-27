@@ -78,8 +78,6 @@ public class Main {
         matchCompetition.addProperty(RDFS.subClassOf, match);
 
         // Attributs Footbaleurs
-        Property nom = m.createProperty(football_uri + "nom");
-        Property prenom = m.createProperty(football_uri + "prenom");
         Property dateNaissance = m.createProperty(football_uri + "dateBirth");
         Property nationalite = m.createProperty(football_uri + "nationalite");
         Property poste = m.createProperty(football_uri + "poste");
@@ -167,63 +165,8 @@ public class Main {
 
         Competition.instaceConstructor(reqCoupeMonde2018, uriCoupeMonde2018);
         MatchCompetition.instanceConstructor(reqMatchsWC2018, uriCoupeMonde2018);
-        // System.out.println(EquipeNationale.equipeNalList.size());
-        // System.out.println(Competition.compList.size());
-        // System.out.println(Match.matchList.size());
 
         // Footballeurs
-
-        String reqFootballeursEquipeCroatie = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL + prolog6 + NL
-                + prolog7 + NL + prolog8
-                + "SELECT ?player ?name ?posteLbl ?dob ?nationaliteLbl ?numMaillot WHERE { ?player wdt:P54 wd:Q134479 ;"
-                + "wdt:P569 ?dob ; wdt:P27 ?nationalite ; wdt:P413 ?poste ; wdt:P1618 ?numMaillot ; rdfs:label ?name ; p:P54 ?statement . ?statement ps:P54 wd:Q134479;"
-                + "FILTER (lang(?name) = 'fr') . ?poste rdfs:label ?posteLbl . FILTER(lang(?posteLbl) = 'fr') ."
-                + "?nationalite rdfs:label ?nationaliteLbl . FILTER(lang(?nationaliteLbl) = 'fr') ."
-                + "OPTIONAL { ?statement pq:P582 ?until } . FILTER(!( BOUND( ?until) )) } ORDER BY ?name";
-
-        String reqFootballeursEquipeFrance = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL + prolog6 + NL
-                + prolog7 + NL + prolog8
-                + "SELECT ?player ?name ?posteLbl ?dob ?nationaliteLbl ?numMaillot WHERE { ?player wdt:P54 wd:Q47774 ;"
-                + "wdt:P569 ?dob ; wdt:P27 ?nationalite ; wdt:P413 ?poste ; wdt:P1618 ?numMaillot ; rdfs:label ?name ; p:P54 ?statement . ?statement ps:P54 wd:Q47774;"
-                + "FILTER (lang(?name) = 'fr') . ?poste rdfs:label ?posteLbl . FILTER(lang(?posteLbl) = 'fr') ."
-                + "?nationalite rdfs:label ?nationaliteLbl . FILTER(lang(?nationaliteLbl) = 'fr') ."
-                + "OPTIONAL { ?statement pq:P582 ?until } . FILTER(!( BOUND( ?until) )) } ORDER BY ?name";
-
-        // Footballeur.instanceConstructor(reqFootballeursEquipeCroatie);
-        // Footballeur.instanceConstructor(reqFootballeursEquipeFrance);
-
-        // for (EquipeNationale e : EquipeNationale.equipeNalList) {
-
-        // System.out.println(e.getUri());
-        // }
-
-        // for (EquipeNationale e : EquipeNationale.equipeNalList) {
-
-        // System.out.println("entre aqui");
-        // String equipeURI = e.getUri();
-        // System.out.println(equipeURI);
-
-        // String req = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL +
-        // prolog6 + NL + prolog7 + NL
-        // + prolog8
-        // + "SELECT ?player ?name ?posteLbl ?dob ?nationaliteLbl ?numMaillot WHERE {
-        // ?player wdt:P54 wd:"
-        // + equipeURI + " ;"
-        // + "wdt:P569 ?dob ; wdt:P27 ?nationalite ; wdt:P413 ?poste ; wdt:P1618
-        // ?numMaillot ; rdfs:label ?name ; p:P54 ?statement . ?statement ps:P54 wd:"
-        // + equipeURI + " ; "
-        // + "FILTER (lang(?name) = 'fr') . ?poste rdfs:label ?posteLbl .
-        // FILTER(lang(?posteLbl) = 'fr') ."
-        // + "?nationalite rdfs:label ?nationaliteLbl . FILTER(lang(?nationaliteLbl) =
-        // 'fr') ."
-        // + "OPTIONAL { ?statement pq:P582 ?until } . FILTER(!( BOUND( ?until) )) }
-        // ORDER BY ?name";
-
-        // Footballeur.instanceConstructor(req);
-
-        // System.out.println(Footballeur.listPlayers.size());
-
-        // }
 
         for (Entraineur e : Entraineur.coachList) {
 
@@ -234,7 +177,7 @@ public class Main {
                         + " wdt:P27 ?nal ; wdt:P569 ?dob ; rdfs:label ?lbl . ?nal rdfs:label ?nalLbl ."
                         + "FILTER(lang(?lbl) = 'en') . FILTER(lang(?nalLbl) = 'en')}";
 
-                Entraineur.instaceConstructor(reqCoach, e.getUri());
+                Entraineur.instanceConstructor(reqCoach, e.getUri());
 
             }
         }
@@ -254,15 +197,27 @@ public class Main {
             player.addProperty(RDF.type, footballeur);
             player.addProperty(RDFS.label, f.getLabel());
             player.addProperty(nationalite, m.createLiteral(f.getNationalite(), "fr"));
+            player.addProperty(poste, m.createLiteral(f.getPoste(), "fr"));
             player.addProperty(numeroMaillot, m.createTypedLiteral(f.getNumMaillot(), XSD.getURI() + "int"));
             player.addProperty(dateNaissance, m.createTypedLiteral(f.getDateNaissance(), XSD.getURI() + "dateTime"));
             player.addProperty(appartient, m.createTypedLiteral(f.getEquipeNal(), "fr"));
         }
 
+        for (Match matchElem : Match.matchList) {
+
+            if (matchElem.getDateMatch() == null)
+                continue;
+            Resource matchRes = m.createResource(football_uri + matchElem.getUri());
+            matchRes.addProperty(dateMatch, m.createTypedLiteral(matchElem.getDateMatch(), XSD.getURI() + "dateTime"));
+            matchRes.addProperty(lieuMatch, m.createLiteral(matchElem.getLieuMatch(), "fr"));
+            matchRes.addProperty(arbitrePar, m.createTypedLiteral(matchElem.getArbitre(), "fr"));
+
+        }
+
         // m.write(System.out, "TURTLE");
 
         try {
-            FileOutputStream outStream = new FileOutputStream("football_test.n3"); //
+            FileOutputStream outStream = new FileOutputStream("football.n3"); //
             m.write(outStream, "N3");
             outStream.close();
 

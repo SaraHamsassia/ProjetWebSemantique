@@ -74,7 +74,7 @@ public class MatchCompetition extends Match {
                 }
 
                 MatchCompetition match = new MatchCompetition(uri.visitWith(aVisitor).toString(),
-                        date.visitWith(aVisitor).toString(), label.visitWith(aVisitor).toString(), comp, referee,
+                        label.visitWith(aVisitor).toString(), date.visitWith(aVisitor).toString(), comp, referee,
                         stade.visitWith(aVisitor).toString());
 
                 Match.addElem(match);
