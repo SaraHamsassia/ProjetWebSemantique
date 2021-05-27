@@ -1,0 +1,77 @@
+@prefix owl:   <http://www.w3.org/2002/07/owl#> .
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix football: <http://www.ex.fr/football#> .
+
+football:matchCompetition
+        a                owl:Class ;
+        rdfs:subClassOf  football:match .
+
+football:DidierDechamps
+        a                     football:Entraineur ;
+        rdfs:label            "Entraineur"@fr ;
+        football:Age          36 ;
+        football:Nationalite  "Français" .
+
+football:Entraineur  a       owl:Class ;
+        rdfs:subClassOf      football:Personne ;
+        owl:disjointWith     football:Arbitre ;
+        owl:equivalentClass  football:Personne .
+
+football:InteragitAvec
+        a       owl:ObjectProperty .
+
+football:Arbitre  a          owl:Class ;
+        rdfs:subClassOf      football:Personne ;
+        owl:equivalentClass  football:Personne .
+
+football:HugoLoris  a           football:Footballeur ;
+        rdfs:label              "HugoLoris"@fr ;
+        football:InteragitAvec  football:NestorPitana , football:DidierDechamps , football:Footballeur ;
+        football:carton_jaune   1 ;
+        football:carton_rouge   0 ;
+        football:titulaire      "oui" .
+
+football:match  a  owl:Class .
+
+football:Footballeur  a      owl:Class ;
+        rdfs:subClassOf      football:Personne ;
+        owl:disjointWith     football:Arbitre , football:Entraineur ;
+        owl:equivalentClass  football:Personne .
+
+football:EquipeClub  a       owl:Class ;
+        rdfs:subClassOf      football:Equipe ;
+        owl:equivalentClass  football:Equipe .
+
+football:EquipeDeFrance
+        a                    football:EquipeNational ;
+        rdfs:label           "Equipe_de_France_de_football"@fr ;
+        football:Fautes      8 ;
+        football:JoueContre  football:EquipeDeCroatie ;
+        football:Pays        "France"^^xsd:integer ;
+        football:Score       4 .
+
+football:Equipe  a  owl:Class .
+
+football:JoueContre  a  owl:ObjectProperty .
+
+football:EquipeDeCroatie
+        a                football:EquipeNational ;
+        rdfs:label       "Equipe_de_Croatie_de_football"@fr ;
+        football:Fautes  12 ;
+        football:Pays    "Croatie"^^xsd:String ;
+        football:Score   2 .
+
+football:EquipeNational
+        a                    owl:Class ;
+        rdfs:subClassOf      football:Equipe ;
+        owl:disjointWith     football:EquipeClub ;
+        owl:equivalentClass  football:Equipe .
+
+football:Personne  a  owl:Class .
+
+football:NestorPitana
+        a                     football:Arbitre ;
+        rdfs:label            "NestorPitana"@fr ;
+        football:Nationalite  "Français" .
