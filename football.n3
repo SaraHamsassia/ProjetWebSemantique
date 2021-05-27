@@ -1,0 +1,318 @@
+@prefix rdf:   <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs:  <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix football: <http://www.ex.fr/sport#> .
+
+football:presnel_kimpembe
+        rdfs:label              "Presnel Kimpembe" ;
+        football:age            "25"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Presnel" ;
+        football:numeroMaillot  "3"^^xsd:int ;
+        football:poste          "defenseur"@fr ;
+        football:prenom         "Kimpembe" .
+
+football:steven_nzonzi
+        rdfs:label              "Steven Nzonzi" ;
+        football:age            "32"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Nzonzi" ;
+        football:numeroMaillot  "15"^^xsd:int ;
+        football:poste          "milieu_de_terrain"@fr ;
+        football:prenom         "Steven" .
+
+football:titulaire_Equipe
+        rdfs:subPropertyOf  football:nomEquipe .
+
+football:FinalCoupeDuMonde2018
+        a                               football:MatchCompetition ;
+        rdfs:label                      "FinalCoupeDuMonde2018" ;
+        football:arbitrerPar            football:Pierluigi_Collina ;
+        football:dateMatch              "2018-07-15"^^xsd:date ;
+        football:faitPartie             football:CoupeDuMonde2018 ;
+        football:fauteAdversaire        "13"^^xsd:int ;
+        football:fauteEquipe            "14"^^xsd:int ;
+        football:lieuMatch              "Moscou"@fr ;
+        football:nbCartonJaune_Adversaire
+                "1"^^xsd:int ;
+        football:nbCartonJaune_Equipe   "2"^^xsd:int ;
+        football:nbCartonRouges_Adversaire
+                "0"^^xsd:int ;
+        football:nbCartonRouges_Equipe  "0"^^xsd:int ;
+        football:nomAdversaire          football:EquipeDeCroatie ;
+        football:nomEquipe              football:EquipeDeFrance ;
+        football:scoreAdversaire        "2"^^xsd:int ;
+        football:scoreEquipe            "4"^^xsd:int ;
+        football:titulaire_Adverse      football:dejan_lovren , football:Danijel_Subasic ;
+        football:titulaire_Equipe       football:olivier_giroud , football:Hugo_Lloris .
+
+football:lucas_hernandez
+        rdfs:label              "Lucas Hernandez" ;
+        football:age            "25"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Hernadez" ;
+        football:numeroMaillot  "21"^^xsd:int ;
+        football:poste          "milieu_de_terrain"@fr ;
+        football:prenom         "Lucas" .
+
+football:Footballeur  rdfs:subClassOf  football:Personnage .
+
+football:Danijel_Subasic
+        rdfs:label      "Didier_Deschamps" ;
+        football:poste  "gardient_de_but"@fr .
+
+football:FootballeurParticipe
+        rdfs:subClassOf  rdfs:Class .
+
+football:EquipeDeFrance
+        a                      football:EquipeNational ;
+        rdfs:label             "EquipeDeFrance" ;
+        football:entrainerPar  football:Didier_Deschamps ;
+        football:pays          "France"@fr .
+
+football:scoreAdversaire
+        rdfs:subPropertyOf  football:nomAdversaire , football:score .
+
+football:MatchCompetition
+        rdfs:subClassOf  football:Match .
+
+football:Equipe  rdfs:subClassOf  rdfs:Class .
+
+football:scoreEquipe  rdfs:subPropertyOf
+                football:nomEquipe , football:score .
+
+football:Miguel_Sansores
+        rdfs:label              "Kylian Mbappé" ;
+        football:age            "22"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Kylian" ;
+        football:numeroMaillot  "10"^^xsd:int ;
+        football:poste          "attaquant"@fr ;
+        football:prenom         "Mbappé" .
+
+football:EquipeClub  rdfs:subClassOf  football:Equipe .
+
+football:lucas_digne  rdfs:label  "Lucas Digne" ;
+        football:age            "27"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Digne" ;
+        football:numeroMaillot  "19"^^xsd:int ;
+        football:poste          "milieu_de_terrain"@fr ;
+        football:prenom         "Lucas" .
+
+football:titulaire_Adverse
+        rdfs:subPropertyOf  football:Equipe .
+
+football:fauteEquipe  rdfs:subPropertyOf
+                football:nomEquipe , football:fautes .
+
+football:Moussa_Sissoko
+        rdfs:label              "Moussa Sissoko" ;
+        football:age            "31"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Issoko" ;
+        football:numeroMaillot  "17"^^xsd:int ;
+        football:poste          "defenseur"@fr ;
+        football:prenom         "Moussa" .
+
+football:MatchAmical  rdfs:subClassOf  football:Match .
+
+football:Zlatko_Dalic
+        a             football:Entraineur ;
+        rdfs:label    "Zlatko_Dalic" ;
+        football:age  "54"^^xsd:int .
+
+football:Entraineur  rdfs:subClassOf  football:Personnage .
+
+football:nbCartonJaune_Equipe
+        rdfs:subPropertyOf  football:nomEquipe , football:nombreCartonsJaunes .
+
+football:Pierluigi_Collina
+        a           football:Arbitre ;
+        rdfs:label  "Pierluigi_Collina" .
+
+football:Didier_Deschamps
+        a             football:Entraineur ;
+        rdfs:label    "Didier_Deschamps" ;
+        football:age  "34"^^xsd:int .
+
+football:ngolo_kante  rdfs:label  "N'golo Kanté" ;
+        football:age            "29"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Kanté" ;
+        football:numeroMaillot  "4"^^xsd:int ;
+        football:poste          "milieu_de_terrain"@fr ;
+        football:prenom         "N'golo" .
+
+football:steve_mandanda
+        rdfs:label              "Steve Mandanda" ;
+        football:age            "35"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Mandanda" ;
+        football:numeroMaillot  "16"^^xsd:int ;
+        football:poste          "gardien_de_but"@fr ;
+        football:prenom         "Steve" .
+
+football:nbCartonRouges_Adversaire
+        rdfs:subPropertyOf  football:nomAdversaire , football:nombreCartonsRouges .
+
+football:adrien_rabiot
+        rdfs:label              "Adrien Rabiot" ;
+        football:age            "25"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Rabiot" ;
+        football:numeroMaillot  "14"^^xsd:int ;
+        football:poste          "milieu_de_terrain"@fr ;
+        football:prenom         "Adrien" .
+
+football:CoupeDuMonde2018
+        a                   football:Competition ;
+        rdfs:label          "CoupeDuMonde2018" ;
+        football:dateDebut  "2018-06-14"^^xsd:date ;
+        football:dateFin    "2018-07-15"^^xsd:date ;
+        football:nomC       "CoupeDuMondeRussie2018"@fr .
+
+football:fauteAdversaire
+        rdfs:subPropertyOf  football:nomAdversaire , football:fautes .
+
+football:nbCartonJaune_Adversaire
+        rdfs:subPropertyOf  football:nomAdversaire , football:nombreCartonsJaunes .
+
+football:Antoine_Griezmann
+        rdfs:label              "Antoine Griezmann" ;
+        football:age            "29"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Antoine" ;
+        football:numeroMaillot  "7"^^xsd:int ;
+        football:poste          "attaquant"@fr ;
+        football:prenom         "Griezmann" .
+
+football:Competition  rdfs:subClassOf  rdfs:Class .
+
+football:EquipeDeCroatie
+        a                      football:EquipeNational ;
+        rdfs:label             "EquipeDeCroatie" ;
+        football:appartient    football:EquipeDeCroatie ;
+        football:entrainerPar  football:Zlatko_Dalic ;
+        football:pays          "Croacie"@fr .
+
+football:EquipeNational
+        rdfs:subClassOf  football:Equipe .
+
+football:nbCartonRouges_Equipe
+        rdfs:subPropertyOf  football:nomEquipe , football:nombreCartonsRouges .
+
+football:raphael_varane
+        rdfs:label              "Raphaël Varane" ;
+        football:age            "30"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Raphaël" ;
+        football:numeroMaillot  "4"^^xsd:int ;
+        football:poste          "defenseur"@fr ;
+        football:prenom         "Varane" .
+
+football:corentin_tolisso
+        rdfs:label              "Corentin Tolisso" ;
+        football:age            "26"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Tolisso" ;
+        football:numeroMaillot  "12"^^xsd:int ;
+        football:poste          "milieu_de_terrain"@fr ;
+        football:prenom         "Corentin" .
+
+football:benjamin_pavard
+        rdfs:label              "Benhamin Pavard" , "défenseur" ;
+        football:age            "24"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Benajamin" ;
+        football:numeroMaillot  "2"^^xsd:int ;
+        football:prenom         "Pavard" .
+
+football:kingsley_coman
+        rdfs:label              "Kingsley Coman" ;
+        football:age            "24"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Coman" ;
+        football:numeroMaillot  "11"^^xsd:int ;
+        football:poste          "attaquant"@fr ;
+        football:prenom         "Kingsley" .
+
+football:olivier_giroud
+        rdfs:label              "Olivier Giroud" ;
+        football:age            "34"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Giroud" ;
+        football:numeroMaillot  "9"^^xsd:int ;
+        football:poste          "attaquant"@fr ;
+        football:prenom         "Olivier" .
+
+football:marcus_thuram
+        rdfs:label              "Marcus Thuram" ;
+        football:age            "23"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Thuram" ;
+        football:numeroMaillot  "23"^^xsd:int ;
+        football:poste          "attaquant"@fr ;
+        football:prenom         "Marcus" .
+
+football:Hugo_Lloris  a         football:Footballeur ;
+        rdfs:label              "Hugo_Loris" ;
+        football:age            "34"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Lloris" ;
+        football:numeroMaillot  "1"^^xsd:int ;
+        football:prenom         "Hugo" .
+
+football:Match  rdfs:subClassOf  rdfs:Class .
+
+football:anthony_martial
+        rdfs:label              "Anthony Martial" ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Martial" ;
+        football:numeroMaillot  "18"^^xsd:int ;
+        football:poste          "attaquant"@fr ;
+        football:prenom         "Anthony" .
+
+football:dejan_lovren
+        rdfs:label      "Dejan Lovren" ;
+        football:poste  "defenseur"@fr .
+
+football:Arbitre  rdfs:subClassOf  football:Personnage .
+
+football:Personnage  rdfs:subClassOf  rdfs:Class .
+
+football:kurt_zouma  rdfs:label  "Kurt Zouma" ;
+        football:age            "26"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Zouma" ;
+        football:numeroMaillot  "13"^^xsd:int ;
+        football:poste          "defenseur"@fr ;
+        football:prenom         "Kurt" .
+
+football:paul_pogba  rdfs:label  "Paul Pogba" ;
+        football:age            "30"^^xsd:int ;
+        football:appartient     football:EquipeDeFrance ;
+        football:nationalite    "Français"@fr ;
+        football:nom            "Paul" ;
+        football:numeroMaillot  "6"^^xsd:int ;
+        football:poste          "milieu_de_terrain"@fr ;
+        football:prenom         "Pogba" .
