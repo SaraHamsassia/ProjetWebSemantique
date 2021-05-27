@@ -9,7 +9,7 @@ Travaux terminés :
 -diagramme d’objets
 -graphes de connaissances RDF et OWL
 
-En cours d'avancement :
+
 -modèle local : Football.java football.n3
 -code connectant notre graphe construit en local et les ressources wikidata :
 WikidataPersonnage.java footBallAndWikidata.n3
@@ -21,7 +21,3 @@ WikidataPersonnage.java footBallAndWikidata.n3
 
 Outils :
 Application Draw.io pour les modélisations conceptuelles
-Dépositoire Service de développement logiciel collaboratif GitHub pour le travail en groupe.
-
-Il manque une explication textuelle de votre domaine d'intérêt, ainsi que diagrammes UML (plus
-explications):
