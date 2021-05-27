@@ -47,6 +47,12 @@ public class EquipeNationale extends Equipe {
         }
     };
 
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return this.getNomEquipe();
+    }
+
     public static void instanceConstructor(String req) {
 
         String sparqlService = "http://query.wikidata.org/sparql";
@@ -114,6 +120,8 @@ public class EquipeNationale extends Equipe {
                 count++;
 
             }
+
+            System.out.println(qexec.isClosed());
         } catch (Exception e) {
             // TODO: handle exception
         }

@@ -25,12 +25,13 @@ public class Footballeur extends Personne {
     }
 
     public Footballeur(String uri, String label, String dateNaissance, String nationalite, String poste,
-            String numMaillotString) {
+            String numMaillotString, EquipeNationale equipeNal) {
 
         super(uri, label, dateNaissance, nationalite);
         this.setPoste(poste);
         int numMaillot = Integer.parseInt(numMaillotString);
         this.setNumMaillot(numMaillot);
+        this.setEquipeNal(equipeNal);
 
     }
 
@@ -73,7 +74,7 @@ public class Footballeur extends Personne {
         return getNationalite() + " " + getLabel() + " " + getPoste();
     }
 
-    public static void instanceConstructor(String req) {
+    public static void instanceConstructor(String req, String uriEquipeNal) {
 
         // System.out.println(req);
 
@@ -103,14 +104,17 @@ public class Footballeur extends Personne {
                 RDFNode dateBirth = sol.get("dob");
                 RDFNode nationalite = sol.get("nationaliteLbl");
                 RDFNode numMaillot = sol.get("numMaillot");
+                EquipeNationale equipeNal = EquipeNationale.getElemByURI(uriEquipeNal);
 
                 Footballeur player = new Footballeur(uri.visitWith(aVisitor).toString(),
                         name.visitWith(aVisitor).toString(), dateBirth.visitWith(aVisitor).toString(),
                         nationalite.visitWith(aVisitor).toString(), posteLbl.visitWith(aVisitor).toString(),
-                        numMaillot.toString());
+                        numMaillot.toString(), equipeNal);
 
                 Footballeur.listPlayers.add(player);
             }
+
+            qexec.close();
 
         } catch (
 

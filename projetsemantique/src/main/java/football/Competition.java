@@ -142,6 +142,8 @@ public class Competition {
                 Competition.compList.add(comp);
             }
 
+            qexec.close();
+
         } catch (
 
         Exception e) {

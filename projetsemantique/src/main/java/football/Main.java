@@ -22,7 +22,7 @@ import org.apache.jena.vocabulary.RDF;
 import org.apache.jena.vocabulary.RDFS;
 import org.apache.jena.vocabulary.XSD;
 
-public class Req_Test {
+public class Main {
 
     static final String football_ns = "football";
     static final String football_uri = "https://www.wikidata.org/wiki/Q2736";
@@ -44,20 +44,61 @@ public class Req_Test {
         m.setNsPrefix("pq", "http://www.wikidata.org/prop/qualifier/"); // Property Qualifier
         m.setNsPrefix("ps", "http://www.wikidata.org/prop/statement/"); // Property Statement
 
+        // Personne
         Resource personne = m.createResource(football_uri + "Personne");
         m.add(personne, RDFS.subClassOf, RDFS.Class);
-
+        // Footballeur
         Resource footballeur = m.createResource(football_uri + "Footballeur");
         m.add(footballeur, RDFS.subClassOf, personne);
+        // Match
+        Resource match = m.createResource(football_uri + "Match");
+        m.add(match, RDFS.subClassOf, RDFS.Class);
+        // Equipe
+        Resource equipe = m.createResource(football_uri + "Equipe");
+        m.add(equipe, RDFS.subClassOf, RDFS.Class);
 
+        // SousClasses
+        // Arbitre
+        Resource arbitre = m.createResource(football_uri + "Arbitre");
+        arbitre.addProperty(RDFS.subClassOf, personne);
+        // Entraineur
+        Resource entraineur = m.createResource(football_uri + "Entraineur");
+        entraineur.addProperty(RDFS.subClassOf, personne);
+        // EquipeClub
+        Resource equipeClub = m.createResource(football_uri + "EquipeClub");
+        equipeClub.addProperty(RDFS.subClassOf, equipe);
+        // EquipeNational
+        Resource equipeNational = m.createResource(football_uri + "EquipeNational");
+        equipeNational.addProperty(RDFS.subClassOf, equipe);
+        // MatchAmical
+        Resource matchAmical = m.createResource(football_uri + "MatchAmical");
+        matchAmical.addProperty(RDFS.subClassOf, match);
+        // MatchCompetition
+        Resource matchCompetition = m.createResource(football_uri + "MatchCompetition");
+        matchCompetition.addProperty(RDFS.subClassOf, match);
+
+        // Attributs Footbaleurs
         Property nom = m.createProperty(football_uri + "nom");
         Property prenom = m.createProperty(football_uri + "prenom");
         Property dateNaissance = m.createProperty(football_uri + "dateBirth");
         Property nationalite = m.createProperty(football_uri + "nationalite");
         Property poste = m.createProperty(football_uri + "poste");
         Property numeroMaillot = m.createProperty(football_uri + "numeroMaillot");
-
         Property appartient = m.createProperty(football_uri + "appartient");
+
+        // Attributs Match
+        Property dateMatch = m.createProperty(football_uri + "dateMatch");
+        Property lieuMatch = m.createProperty(football_uri + "lieuMatch");
+        Property equipeLocal = m.createProperty(football_uri + "equipeLocal");
+        Property equipeVisitant = m.createProperty(football_uri + "equipeVisitant");
+        Property arbitrePar = m.createProperty(football_uri + "arbitrePar");
+
+        // Attributs EquipeNal
+        Property entrainePar = m.createProperty(football_uri + "entrainePar");
+        Property pays = m.createProperty(football_uri + "pays");
+        Property stade = m.createProperty(football_uri, "stade");
+
+        // Property faitPartie = m.createProperty(football_uri + "faitPartie");
 
         String prolog1 = "PREFIX " + football_ns + ": <" + football_uri + ">";
         String prolog2 = "PREFIX rdf: <" + RDF.getURI() + ">";
@@ -84,11 +125,10 @@ public class Req_Test {
 
         String equipesWC2018 = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL + prolog6 + NL + prolog7 + NL
                 + prolog8
-
                 + "SELECT DISTINCT ?equipeNal ?lbl ?coach ?countryLbl ?stadeLbl WHERE { wd:Q170645 wdt:P1923 ?uriWC2018 . "
                 + "?uriWC2018 wdt:P1532 ?country . ?equipeNal wdt:P31 wd:Q6979593 ; wdt:P1532 ?country ; wdt:P2094 wd:Q31930761 ; wdt:P286 ?coach ;"
                 + "rdfs:label ?lbl . ?country rdfs:label ?countryLbl . FILTER (lang(?lbl) = 'en') . FILTER(lang(?countryLbl)= 'en') . "
-                + "OPTIONAL { ?equipeNal wdt:P115 ?stade . ?stade rdfs:label ?stadeLbl . FILTER(lang(?stadeLbl) = 'en') }}";
+                + "OPTIONAL { ?equipeNal wdt:P115 ?stade . ?stade rdfs:label ?stadeLbl . FILTER(lang(?stadeLbl) = 'en') . FILTER(lang(?coachLbl) = 'en') }}";
 
         // Matchs
 
@@ -100,11 +140,36 @@ public class Req_Test {
                 + "FILTER(lang(?matchLbl) = 'en') . FILTER(lang(?stadiumLbl) = 'en') }";
 
         EquipeNationale.instanceConstructor(equipesWC2018);
+
+        for (EquipeNationale e : EquipeNationale.equipeNalList) {
+
+            Resource team = m.createResource(football_uri + e.getUri());
+            team.addProperty(RDF.type, equipeNational);
+            team.addProperty(RDFS.label, e.getNomEquipe());
+            team.addProperty(pays, m.createLiteral(e.getPays(), "fr"));
+            team.addProperty(entrainePar, m.createTypedLiteral(e.getCoach(), "fr"));
+
+            System.out.println(e.getUri());
+
+            String req = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL + prolog6 + NL + prolog7 + NL
+                    + prolog8
+                    + "SELECT ?player ?name ?posteLbl ?dob ?nationaliteLbl ?numMaillot WHERE { ?player wdt:P54 wd:"
+                    + e.getUri() + " ;"
+                    + "wdt:P569 ?dob ; wdt:P27 ?nationalite ; wdt:P413 ?poste ; wdt:P1618 ?numMaillot ; rdfs:label ?name ; p:P54 ?statement . ?statement ps:P54 wd:"
+                    + e.getUri() + " ; "
+                    + "FILTER (lang(?name) = 'fr') . ?poste rdfs:label ?posteLbl . FILTER(lang(?posteLbl) = 'fr') ."
+                    + "?nationalite rdfs:label ?nationaliteLbl . FILTER(lang(?nationaliteLbl) = 'fr') ."
+                    + "OPTIONAL { ?statement pq:P582 ?until } . FILTER(!( BOUND( ?until) )) } ORDER BY ?name";
+
+            Footballeur.instanceConstructor(req, e.getUri());
+
+        }
+
         Competition.instaceConstructor(reqCoupeMonde2018, uriCoupeMonde2018);
-        Match.instanceConstructor(reqMatchsWC2018, uriCoupeMonde2018);
-        System.out.println(EquipeNationale.equipeNalList.size());
-        System.out.println(Competition.compList.size());
-        System.out.println(Match.matchList.size());
+        MatchCompetition.instanceConstructor(reqMatchsWC2018, uriCoupeMonde2018);
+        // System.out.println(EquipeNationale.equipeNalList.size());
+        // System.out.println(Competition.compList.size());
+        // System.out.println(Match.matchList.size());
 
         // Footballeurs
 
@@ -127,30 +192,60 @@ public class Req_Test {
         // Footballeur.instanceConstructor(reqFootballeursEquipeCroatie);
         // Footballeur.instanceConstructor(reqFootballeursEquipeFrance);
 
-        for (EquipeNationale e : EquipeNationale.equipeNalList) {
+        // for (EquipeNationale e : EquipeNationale.equipeNalList) {
 
-            System.out.println(e.getUri());
+        // System.out.println(e.getUri());
+        // }
+
+        // for (EquipeNationale e : EquipeNationale.equipeNalList) {
+
+        // System.out.println("entre aqui");
+        // String equipeURI = e.getUri();
+        // System.out.println(equipeURI);
+
+        // String req = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL +
+        // prolog6 + NL + prolog7 + NL
+        // + prolog8
+        // + "SELECT ?player ?name ?posteLbl ?dob ?nationaliteLbl ?numMaillot WHERE {
+        // ?player wdt:P54 wd:"
+        // + equipeURI + " ;"
+        // + "wdt:P569 ?dob ; wdt:P27 ?nationalite ; wdt:P413 ?poste ; wdt:P1618
+        // ?numMaillot ; rdfs:label ?name ; p:P54 ?statement . ?statement ps:P54 wd:"
+        // + equipeURI + " ; "
+        // + "FILTER (lang(?name) = 'fr') . ?poste rdfs:label ?posteLbl .
+        // FILTER(lang(?posteLbl) = 'fr') ."
+        // + "?nationalite rdfs:label ?nationaliteLbl . FILTER(lang(?nationaliteLbl) =
+        // 'fr') ."
+        // + "OPTIONAL { ?statement pq:P582 ?until } . FILTER(!( BOUND( ?until) )) }
+        // ORDER BY ?name";
+
+        // Footballeur.instanceConstructor(req);
+
+        // System.out.println(Footballeur.listPlayers.size());
+
+        // }
+
+        for (Entraineur e : Entraineur.coachList) {
+
+            if (e.getLabel() == null) {
+
+                String reqCoach = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL + prolog6 + NL + prolog7
+                        + NL + prolog8 + "SELECT ?lbl ?dob ?nalLbl WHERE { wd:" + e.getUri()
+                        + " wdt:P27 ?nal ; wdt:P569 ?dob ; rdfs:label ?lbl . ?nal rdfs:label ?nalLbl ."
+                        + "FILTER(lang(?lbl) = 'en') . FILTER(lang(?nalLbl) = 'en')}";
+
+                Entraineur.instaceConstructor(reqCoach, e.getUri());
+
+            }
         }
 
-        for (EquipeNationale e : EquipeNationale.equipeNalList) {
+        for (Entraineur e : Entraineur.coachList) {
 
-            System.out.println("entre aqui");
-            String equipeURI = e.getUri();
-            System.out.println(equipeURI);
-
-            String req = prolog2 + NL + prolog3 + NL + prolog4 + NL + prolog5 + NL + prolog6 + NL + prolog7 + NL
-                    + prolog8
-                    + "SELECT ?player ?name ?posteLbl ?dob ?nationaliteLbl ?numMaillot WHERE { ?player wdt:P54 wd:"
-                    + equipeURI + " ;"
-                    + "wdt:P569 ?dob ; wdt:P27 ?nationalite ; wdt:P413 ?poste ; wdt:P1618 ?numMaillot ; rdfs:label ?name ; p:P54 ?statement . ?statement ps:P54 wd:"
-                    + equipeURI + " ; "
-                    + "FILTER (lang(?name) = 'fr') . ?poste rdfs:label ?posteLbl . FILTER(lang(?posteLbl) = 'fr') ."
-                    + "?nationalite rdfs:label ?nationaliteLbl . FILTER(lang(?nationaliteLbl) = 'fr') ."
-                    + "OPTIONAL { ?statement pq:P582 ?until } . FILTER(!( BOUND( ?until) )) } ORDER BY ?name";
-
-            Footballeur.instanceConstructor(req);
-
-            System.out.println(Footballeur.listPlayers.size());
+            Resource coach = m.createResource(football_uri + e.getUri());
+            coach.addProperty(RDF.type, entraineur);
+            coach.addProperty(RDFS.label, e.getLabel());
+            coach.addProperty(nationalite, m.createLiteral(e.getNationalite(), "fr"));
+            coach.addProperty(dateNaissance, m.createTypedLiteral(e.getDateNaissance(), XSD.getURI() + "datetime"));
         }
 
         for (Footballeur f : Footballeur.listPlayers) {
@@ -160,6 +255,8 @@ public class Req_Test {
             player.addProperty(RDFS.label, f.getLabel());
             player.addProperty(nationalite, m.createLiteral(f.getNationalite(), "fr"));
             player.addProperty(numeroMaillot, m.createTypedLiteral(f.getNumMaillot(), XSD.getURI() + "int"));
+            player.addProperty(dateNaissance, m.createTypedLiteral(f.getDateNaissance(), XSD.getURI() + "dateTime"));
+            player.addProperty(appartient, m.createTypedLiteral(f.getEquipeNal(), "fr"));
         }
 
         // m.write(System.out, "TURTLE");
