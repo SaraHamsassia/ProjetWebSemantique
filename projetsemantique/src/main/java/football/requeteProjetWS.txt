@@ -1,0 +1,98 @@
+tutoriel: https://zestedesavoir.com/tutoriels/3445/explorons-wikidata/
+requetes: https://query.wikidata.org/
+
+//footballer
+select ?mesFootballeurs
+where{
+	?mesFootballeurs type footballeur
+}
+
+select ?mesFootballeurs
+where{
+	?mesFootballeurs wdt:P106 wd:Q937857
+}
+select ?mesFootballeurs ?mesFootballeursLabel 
+where{
+	?mesFootballeurs wdt:P106 wd:Q937857 
+SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],fr,en".}
+}
+limit 25
+
+select ?mesFootballeurs ?mesFootballeursLabel 
+where{
+	?mesFootballeurs wdt:P106 wd:Q937857 ;  rdfs:label ?mesFootballeursLabel . FILTER(lang(?mesFootballeursLabel)="fr")
+
+}
+limit 25
+
+
+
+
+
+//entraineur
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+sELECT ?stade ?label
+WHERE
+{
+?stade wdt:P106 wd:Q628099 ;
+rdfs:label ?label
+FILTER (lang(?label) = 'fr')
+} LIMIT 10
+
+
+//lieu stade
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+sELECT ?stade ?label
+WHERE
+{
+?stade wdt:P31 wd:Q1154710 ;
+rdfs:label ?label
+FILTER (lang(?label) = 'fr')
+} LIMIT 100
+
+
+//arbitre
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+sELECT ? arbitre ?label
+WHERE
+{
+? arbitre wdt:P106 wd:Q859528 ;
+rdfs:label ?label
+FILTER (lang(?label) = 'fr')
+} LIMIT 10
+
+
+//toutes les compétitions
+PREFIX wd: <http://www.wikidata.org/entity/>
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+sELECT ?competition ?label
+WHERE
+{
+? competition wdt:P31 wd:Q27020041.
+? ? ? ? ? ? ? ? competition wdt:P641 wd:Q2736;
+rdfs:label ?label
+FILTER (lang(?label) = 'fr')
+} LIMIT 100
+
+//coupeDuMonde
+select ?coupeDuMonde 
+where{
+	?coupeDuMonde wdt:P3450 wd:Q19317
+}
+
+
+//coupeLigue
+select ?coupeLigue 
+where{
+	?coupeLigue wdt:P31 wd:Q1824674.
+	 ?coupeLigue wdt:P641 wd:Q2736
+}
+
+
